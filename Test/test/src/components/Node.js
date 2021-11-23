@@ -11,9 +11,12 @@ import {
 } from "@material-ui/core";
 import colors from "../constants/colors";
 import Status from "./Status";
+import BlockDetails from "./BlockDetails";
 
 const Node = ({ node, expanded, toggleNodeExpanded }) => {
   const classes = useStyles();
+  const {blockData} = node;
+  const isBlockDataExists = blockData && blockData.length;
   return (
     <Accordion
       elevation={3}
@@ -46,7 +49,8 @@ const Node = ({ node, expanded, toggleNodeExpanded }) => {
         </Box>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography>Blocks go here</Typography>
+        {isBlockDataExists && <BlockDetails data={blockData} />}
+        {!isBlockDataExists ? <Typography>No details found.</Typography>:''}
       </AccordionDetails>
     </Accordion>
   );

@@ -23,6 +23,7 @@ const checkNodeStatusFailure = (node) => {
   };
 };
 
+
 export function checkNodeStatus(node) {
   return async (dispatch) => {
     try {
@@ -43,10 +44,46 @@ export function checkNodeStatus(node) {
   };
 }
 
+const checkBlockStatusSuccess = (node, res) => {
+  return {
+    type: types.CHECK_BLOCK_SUCCESS,
+    node,
+    res,
+  };
+};
+
+const checkBlockStatusFailure = (node) => {
+  return {
+    type: types.CHECK_BLOCK_FAILURE,
+    node,
+  };
+};
+
+
+export function checkBlockStatus(node) {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(`${node.url}/api/v1/blocks`);
+
+      if (res.status >= 400) {
+        dispatch(checkBlockStatusFailure(node));
+        return;
+      }
+
+      const json = await res.json();
+
+      dispatch(checkBlockStatusSuccess(node, json));
+    } catch (err) {
+      dispatch(checkBlockStatusFailure(node));
+    }
+  };
+}
+
 export function checkNodeStatuses(list) {
   return (dispatch) => {
     list.forEach((node) => {
       dispatch(checkNodeStatus(node));
+      dispatch(checkBlockStatus(node));
     });
   };
 }

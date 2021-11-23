@@ -63,4 +63,27 @@ describe("Actions", () => {
 
     expect(dispatch.mock.calls.flat()).toEqual(expected);
   });
+
+
+  it('check blocks fetch success', async () => {
+    mockFetch.mockReturnValueOnce(
+      Promise.resolve({
+        status: 200,
+        json() {
+          return Promise.resolve([{ node_name: "Secret Lowlands" }]);
+        },
+      })
+    );
+    await ActionCreators.checkBlockStatus(node)(dispatch);
+    const expected = [
+      {
+        type: ActionTypes.CHECK_BLOCK_SUCCESS,
+        node,
+        res: [{ node_name: "Secret Lowlands" }],
+      },
+    ];
+
+    expect(dispatch.mock.calls.flat()).toEqual(expected);
+  });
 });
+
