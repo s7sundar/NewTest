@@ -49,8 +49,7 @@ const Node = ({ node, expanded, toggleNodeExpanded }) => {
         </Box>
       </AccordionSummary>
       <AccordionDetails>
-        {isBlockDataExists && <BlockDetails data={blockData} />}
-        {!isBlockDataExists ? <Typography>No details found.</Typography>:''}
+        {isBlockDataExists ? <BlockDetails data={blockData} /> : <Typography>No details found.</Typography>}
       </AccordionDetails>
     </Accordion>
   );

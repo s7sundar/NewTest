@@ -92,4 +92,39 @@ describe('Reducers::Nodes', () => {
 
     expect(reducer(appState, action)).toEqual(expected);
   });
+
+
+  it('should handle CHECK_BLOCK_SUCCESS', () => {
+    const appState = {
+      list: [nodeA, nodeB]
+    };
+    const action = { type: ActionTypes.CHECK_BLOCK_SUCCESS, node: nodeA, res: {data: [{node_name: 'alpha'}]} };
+    const expected = {
+      list: [
+        {
+          ...nodeA,
+          blockData:[{node_name: 'alpha'}]
+        },
+        nodeB
+      ]
+    };
+    expect(reducer(appState, action)).toEqual(expected);
+  });
+
+  it('should handle CHECK_BLOCK_FAILURE', () => {
+    const appState = {
+      list: [nodeA, nodeB]
+    };
+    const action = { type: ActionTypes.CHECK_BLOCK_FAILURE, node: nodeA };
+    const expected = {
+      list: [
+        {
+          ...nodeA,
+          blockData:[]
+        },
+        nodeB
+      ]
+    };
+    expect(reducer(appState, action)).toEqual(expected);
+  });
 });

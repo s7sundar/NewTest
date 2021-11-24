@@ -10,7 +10,7 @@ const BlockDetails = ({data}) => {
     return (
         <Grid container>
             {data.map(({attributes}, index) => (
-                <Grid item container style={{backgroundColor: 'lightgray', marginBottom: '10px', padding: '10px'}}>
+                <Grid key={index+attributes.data} item container style={{backgroundColor: 'lightgray', marginBottom: '10px', padding: '10px'}}>
                     <Grid item container style={{color: 'blue'}}>{pad(index+1, 3)}</Grid>
                     <Grid item container>{attributes.data}</Grid>
                 </Grid>)

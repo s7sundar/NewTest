@@ -85,5 +85,22 @@ describe("Actions", () => {
 
     expect(dispatch.mock.calls.flat()).toEqual(expected);
   });
+
+  it('check block fetch failure', async () => {
+    mockFetch.mockReturnValueOnce(
+      Promise.resolve({
+        status: 400,
+      })
+    );
+    await ActionCreators.checkBlockStatus(node)(dispatch);
+    const expected = [
+      {
+        type: ActionTypes.CHECK_BLOCK_FAILURE,
+        node,
+      },
+    ];
+
+    expect(dispatch.mock.calls.flat()).toEqual(expected);
+  });
 });
 
